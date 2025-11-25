@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codex Dictionary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* Kinako Theme (Hardcoded) */
+        --bg-sidebar: #3e3229; /* Dark warm brown */
+        --bg-main: #f0e6d2; /* Warm beige */
+        --bg-card: rgba(253, 251, 247, 0.6);
+        --bg-card-hover: rgba(253, 251, 247, 0.9);
+        --text-primary: #4a3b32;
+        --text-secondary: #8c7b70;
+        --text-sidebar: #f5f0e1;
+        --text-sidebar-muted: #b0a399;
+        --accent: #6b8c42; /* Matcha */
+        --accent-bg: rgba(107, 140, 66, 0.1);
+        --border-color: #d6cfc2;
+        --input-bg: #2c241b;
+        --input-text: #f5f0e1;
+        --button-text: #f5f0e1;
+        --button-bg: #6b8c42;
+        --button-bg-hover: #557035;
+      }
+
+      body {
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+      }
+      .font-serif-jp {
+        font-family: 'Shippori Mincho', serif;
+      }
+      
+      /* Washi Paper Texture Effect */
+      .bg-washi {
+        background-color: var(--bg-main);
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+      }
+      
+      /* Scrollbar refinement */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #b0a399;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #8c7b70;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-washi min-h-screen">
+    <div id="root"></div>
+  </body>
+</html>

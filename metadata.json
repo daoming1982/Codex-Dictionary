@@ -1,0 +1,7 @@
+{
+  "name": "Codex Dictionary",
+  "description": "Your personal AI Japanese dictionary. Input any text, get Japanese translations with readings (furigana), native audio pronunciation, and save them for review.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

@@ -118,15 +118,15 @@ export const ReviewCard: React.FC<ReviewCardProps> = memo(({ item, onDelete, onP
       </div>
       
       <div className="mb-6 relative z-10">
-          <div className="text-sm text-[var(--text-secondary)] mb-4 font-serif-jp">{item.originalInput}</div>
+          <div className="text-sm text-[var(--text-secondary)] mb-4 font-serif-jp whitespace-pre-wrap leading-relaxed">{item.originalInput}</div>
           
           <div className="pl-4 border-l border-[var(--border-color)]">
             <div className="flex flex-col">
-                <span className="text-sm font-serif-jp mb-1 text-[var(--accent)]">{item.reading}</span>
-                <h3 className="text-3xl font-bold font-serif-jp leading-tight text-[var(--text-primary)]">{item.japanese}</h3>
-                <div className="flex items-center gap-2 mt-2">
+                <span className="text-sm font-serif-jp mb-1 text-[var(--accent)] whitespace-pre-wrap">{item.reading}</span>
+                <h3 className="text-xl md:text-2xl font-bold font-serif-jp leading-relaxed text-[var(--text-primary)] whitespace-pre-wrap">{item.japanese}</h3>
+                <div className="flex flex-col gap-2 mt-3">
                     <span className="text-xs font-mono text-[var(--text-secondary)]">[{item.romaji}]</span>
-                    <span className="text-xs font-medium px-2 py-0.5 rounded text-[var(--text-primary)] bg-[var(--border-color)]">{item.englishDefinition}</span>
+                    <span className="text-xs font-medium px-2 py-1 rounded text-[var(--text-primary)] bg-[var(--border-color)] self-start">{item.englishDefinition}</span>
                 </div>
             </div>
           </div>
@@ -135,7 +135,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = memo(({ item, onDelete, onP
       {/* Example Sentence */}
       <div className="mb-6 p-4 rounded-sm border relative z-10 bg-[var(--accent-bg)] border-[var(--accent-bg)]">
             <div className="flex flex-col gap-1">
-                <div className="text-xs mb-1 uppercase tracking-wide opacity-60 text-[var(--text-primary)]">Usage</div>
+                <div className="text-xs mb-1 uppercase tracking-wide opacity-60 text-[var(--text-primary)]">Usage Example</div>
                 <div className="text-lg font-serif-jp text-[var(--text-primary)]">{item.exampleJapanese}</div>
                 <div className="text-xs font-serif-jp text-[var(--accent)]">{item.exampleReading}</div>
                 <div className="text-sm mt-1 font-serif-jp text-[var(--text-secondary)]">{item.exampleEnglish}</div>

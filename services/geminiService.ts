@@ -11,12 +11,24 @@ export const analyzeText = async (text: string) => {
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: `Analyze: "${text}".
-    Output JSON.
-    1. If input != Japanese, translate to Japanese.
-    2. Provide reading (Hiragana/Katakana), Romaji, English definition.
-    3. Provide 1 simple Japanese example sentence with reading & English.`,
     config: {
+      systemInstruction: `You are a Japanese translator and dictionary Codex. 
+      Your task is to process the User Input and output a JSON object.
+      
+      RULES:
+      1. 'japanese': Translate the ENTIRE User Input into natural Japanese. 
+         - If the input is a paragraph, translate the whole paragraph. 
+         - Do not summarize. 
+         - Do not truncate. 
+         - Preserve line breaks.
+         - If the input is already Japanese, keep it as is (or correct natural phrasing).
+      2. 'reading': Provide the full reading (Furigana) in Hiragana/Katakana for the 'japanese' field.
+      3. 'romaji': Provide the Romaji for the 'japanese' field.
+      4. 'englishDefinition': 
+         - If input is a word: provide the definition.
+         - If input is a sentence/paragraph: provide the English translation of the meaning.
+      5. 'exampleJapanese': Create a NEW, SHORT, SIMPLE example sentence using the main vocabulary from the input (different from the input itself).
+      `,
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -31,7 +43,8 @@ export const analyzeText = async (text: string) => {
         },
         required: ["japanese", "reading", "romaji", "englishDefinition", "exampleJapanese", "exampleReading", "exampleEnglish"]
       }
-    }
+    },
+    contents: [{ parts: [{ text: text }] }] // Pass text directly as content
   });
 
   const jsonStr = response.text;

@@ -4,7 +4,7 @@ import { convertBase64PCMToWavBlob } from './utils/audioUtils';
 import { saveAudioBlob, getAudioBlob, deleteAudioBlob } from './utils/storage';
 import { DictionaryEntry, VoiceName } from './types';
 import { ReviewCard } from './components/ReviewCard';
-import { BookOpen, AlertCircle, Loader2, Search, PenTool, Feather } from 'lucide-react';
+import { BookOpen, AlertCircle, Loader2, Search, PenTool, Feather, Download, Trash, Settings } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'codex_dictionary_items';
 
@@ -161,6 +161,44 @@ const App: React.FC = () => {
     }
   }, [dictionaryItems]);
 
+  const handleExportCSV = () => {
+    const headers = ["Original", "Japanese", "Reading", "Meaning", "Example JP", "Example EN", "JLPT", "Part of Speech"];
+    const rows = dictionaryItems.map(item => [
+      `"${item.originalInput.replace(/"/g, '""')}"`,
+      `"${item.japanese.replace(/"/g, '""')}"`,
+      `"${item.reading.replace(/"/g, '""')}"`,
+      `"${item.englishDefinition.replace(/"/g, '""')}"`,
+      `"${item.exampleJapanese.replace(/"/g, '""')}"`,
+      `"${item.exampleEnglish.replace(/"/g, '""')}"`,
+      `"${item.jlpt}"`,
+      `"${item.partOfSpeech}"`
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(r => r.join(","))
+    ].join("\n");
+
+    // Fix: Add BOM (\uFEFF) for Excel compatibility with UTF-8
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `codex_love_dictionary_export_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm("Are you sure you want to delete all entries? This cannot be undone.")) {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+      // IndexedDB cleanup logic would ideally be here too, but simple clear is often enough for UX
+      // We will just reset UI for now.
+      setDictionaryItems([]);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-sans">
       {/* Sidebar / Lookup Section */}
@@ -215,6 +253,28 @@ const App: React.FC = () => {
                 )}
             </button>
             
+            <div className="mt-4 md:mt-8 pt-4 border-t border-[var(--border-color)]/10">
+                <label className="block text-[10px] md:text-xs font-bold text-[var(--text-sidebar-muted)] mb-3 uppercase tracking-wider flex items-center gap-2">
+                     <Settings size={12} /> Data Management
+                </label>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={handleExportCSV}
+                    disabled={dictionaryItems.length === 0}
+                    className="flex-1 py-2 rounded-sm border border-[var(--border-color)]/20 text-[var(--text-sidebar)] hover:bg-white/5 text-xs flex items-center justify-center gap-2 disabled:opacity-30 transition-colors"
+                  >
+                     <Download size={14} /> Export CSV
+                  </button>
+                   <button 
+                    onClick={handleClearAll}
+                    disabled={dictionaryItems.length === 0}
+                    className="flex-1 py-2 rounded-sm border border-red-900/50 text-red-200 hover:bg-red-900/20 text-xs flex items-center justify-center gap-2 disabled:opacity-30 transition-colors"
+                  >
+                     <Trash size={14} /> Clear All
+                  </button>
+                </div>
+            </div>
+
             <div className="mt-auto pt-4 md:pt-8 hidden md:block">
                  <div className="text-center opacity-40 hover:opacity-100 transition-opacity">
                     <div className="text-[10px] uppercase tracking-[0.3em] mb-1 font-serif-jp text-[var(--text-sidebar-muted)]">Powered by</div>

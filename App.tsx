@@ -58,10 +58,12 @@ const App: React.FC = () => {
 
     const dataToSave = dictionaryItems.map(({ 
         id, originalInput, japanese, reading, romaji, englishDefinition, 
-        exampleJapanese, exampleReading, exampleEnglish, timestamp 
+        exampleJapanese, exampleReading, exampleEnglish, timestamp,
+        jlpt, partOfSpeech, grammarNote
     }) => ({
       id, originalInput, japanese, reading, romaji, englishDefinition,
-      exampleJapanese, exampleReading, exampleEnglish, timestamp
+      exampleJapanese, exampleReading, exampleEnglish, timestamp,
+      jlpt, partOfSpeech, grammarNote
     }));
     
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToSave));
@@ -108,6 +110,10 @@ const App: React.FC = () => {
         exampleJapanese: analysis.exampleJapanese,
         exampleReading: analysis.exampleReading,
         exampleEnglish: analysis.exampleEnglish,
+        // New metadata fields with defaults
+        jlpt: analysis.jlpt || 'Unknown',
+        partOfSpeech: analysis.partOfSpeech || '',
+        grammarNote: analysis.grammarNote || '',
         timestamp: Date.now(),
         audioUrl: null, // Audio loads later
       };
@@ -165,8 +171,7 @@ const App: React.FC = () => {
                     <Feather className="text-[var(--text-sidebar)] w-4 h-4 md:w-6 md:h-6" />
                 </div>
                 <div>
-                    <h1 className="text-xl md:text-2xl font-serif-jp font-bold tracking-wide text-[var(--text-sidebar)]">Codex</h1>
-                    <p className="text-[9px] md:text-[10px] text-[var(--text-sidebar-muted)] uppercase tracking-[0.2em] font-medium">Japanese Lexicon</p>
+                    <h1 className="text-xl md:text-2xl font-serif-jp font-bold tracking-wide text-[var(--text-sidebar)] leading-tight">Codex Love Dictionary</h1>
                 </div>
             </div>
         </div>
@@ -237,7 +242,7 @@ const App: React.FC = () => {
             {isInitializing ? (
                 <div className="flex flex-col items-center justify-center py-32 opacity-50">
                      <Loader2 className="animate-spin text-[var(--text-primary)] mb-4" size={24} />
-                     <p className="text-[var(--text-secondary)] font-serif-jp text-sm">Loading Codex...</p>
+                     <p className="text-[var(--text-secondary)] font-serif-jp text-sm">Loading Codex Love Dictionary...</p>
                 </div>
             ) : dictionaryItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 md:py-32 text-slate-300 border border-[var(--border-color)] border-dashed rounded-sm">

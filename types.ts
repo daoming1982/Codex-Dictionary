@@ -11,6 +11,11 @@ export interface DictionaryEntry {
   exampleReading: string;    // Example sentence reading
   exampleEnglish: string;    // Example sentence translation
 
+  // Advanced Learning Metadata
+  jlpt: string;              // e.g., "N5", "N1", "Unknown"
+  partOfSpeech: string;      // e.g., "Noun", "Ichidan Verb"
+  grammarNote: string;       // Usage nuance or cultural context
+
   timestamp: number;
   
   // Audio state (URLs are session-based, blobs stored in IndexedDB)

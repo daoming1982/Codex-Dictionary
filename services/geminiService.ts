@@ -12,22 +12,18 @@ export const analyzeText = async (text: string) => {
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     config: {
-      systemInstruction: `You are a Japanese translator and dictionary Codex. 
-      Your task is to process the User Input and output a JSON object.
+      systemInstruction: `You are Codex Love Dictionary, an expert Japanese lexicographer and translator. 
+      Your task is to analyze the User Input and output a structured JSON object for a learner's dictionary.
       
       RULES:
-      1. 'japanese': Translate the ENTIRE User Input into natural Japanese. 
-         - If the input is a paragraph, translate the whole paragraph. 
-         - Do not summarize. 
-         - Do not truncate. 
-         - Preserve line breaks.
-         - If the input is already Japanese, keep it as is (or correct natural phrasing).
-      2. 'reading': Provide the full reading (Furigana) in Hiragana/Katakana for the 'japanese' field.
-      3. 'romaji': Provide the Romaji for the 'japanese' field.
-      4. 'englishDefinition': 
-         - If input is a word: provide the definition.
-         - If input is a sentence/paragraph: provide the English translation of the meaning.
-      5. 'exampleJapanese': Create a NEW, SHORT, SIMPLE example sentence using the main vocabulary from the input (different from the input itself).
+      1. 'japanese': Translate the ENTIRE User Input into natural Japanese.
+      2. 'reading': Provide the full reading (Furigana) in Hiragana/Katakana.
+      3. 'romaji': Provide the Romaji.
+      4. 'englishDefinition': Concise meaning.
+      5. 'exampleJapanese': Create a NEW, SHORT example sentence using the main vocabulary.
+      6. 'jlpt': Estimate the JLPT level of the main vocabulary (N5, N4, N3, N2, N1, or Unknown).
+      7. 'partOfSpeech': The grammatical classification (e.g., Noun, Godan Verb, I-Adjective, Phrase).
+      8. 'grammarNote': A brief, helpful tip about usage nuance, cultural context, or grammar rules (max 20 words).
       `,
       responseMimeType: "application/json",
       responseSchema: {
@@ -39,12 +35,15 @@ export const analyzeText = async (text: string) => {
           englishDefinition: { type: Type.STRING },
           exampleJapanese: { type: Type.STRING },
           exampleReading: { type: Type.STRING },
-          exampleEnglish: { type: Type.STRING }
+          exampleEnglish: { type: Type.STRING },
+          jlpt: { type: Type.STRING },
+          partOfSpeech: { type: Type.STRING },
+          grammarNote: { type: Type.STRING }
         },
-        required: ["japanese", "reading", "romaji", "englishDefinition", "exampleJapanese", "exampleReading", "exampleEnglish"]
+        required: ["japanese", "reading", "romaji", "englishDefinition", "exampleJapanese", "exampleReading", "exampleEnglish", "jlpt", "partOfSpeech", "grammarNote"]
       }
     },
-    contents: [{ parts: [{ text: text }] }] // Pass text directly as content
+    contents: [{ parts: [{ text: text }] }] 
   });
 
   const jsonStr = response.text;

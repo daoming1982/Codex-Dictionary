@@ -158,22 +158,22 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-sans">
       {/* Sidebar / Lookup Section */}
-      <div className="w-full md:w-[420px] bg-[var(--bg-sidebar)] text-[var(--text-sidebar)] flex flex-col h-auto md:h-screen sticky top-0 z-20 shadow-2xl">
-        <div className="p-8 border-b border-[var(--border-color)]/10">
-            <div className="flex items-center gap-4 mb-2">
-                <div className="bg-white/10 p-2 rounded-sm border border-white/10">
-                    <Feather size={24} className="text-[var(--text-sidebar)]" />
+      <div className="w-full md:w-[30%] bg-[var(--bg-sidebar)] text-[var(--text-sidebar)] flex flex-col h-auto md:h-screen relative md:sticky md:top-0 z-20 shadow-2xl">
+        <div className="p-4 md:p-8 border-b border-[var(--border-color)]/10">
+            <div className="flex items-center gap-3 mb-1">
+                <div className="bg-white/10 p-1.5 md:p-2 rounded-sm border border-white/10">
+                    <Feather className="text-[var(--text-sidebar)] w-4 h-4 md:w-6 md:h-6" />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-serif-jp font-bold tracking-wide text-[var(--text-sidebar)]">Codex Dictionary</h1>
-                    <p className="text-[10px] text-[var(--text-sidebar-muted)] uppercase tracking-[0.2em] font-medium">Japanese Lexicon</p>
+                    <h1 className="text-xl md:text-2xl font-serif-jp font-bold tracking-wide text-[var(--text-sidebar)]">Codex</h1>
+                    <p className="text-[9px] md:text-[10px] text-[var(--text-sidebar-muted)] uppercase tracking-[0.2em] font-medium">Japanese Lexicon</p>
                 </div>
             </div>
         </div>
 
-        <div className="p-8 flex-1 flex flex-col gap-6 overflow-y-auto">
+        <div className="p-4 md:p-8 flex-1 flex flex-col gap-4 md:gap-6 overflow-y-auto">
             <div>
-                <label className="block text-xs font-bold text-[var(--text-sidebar-muted)] mb-3 uppercase tracking-wider flex items-center gap-2">
+                <label className="block text-[10px] md:text-xs font-bold text-[var(--text-sidebar-muted)] mb-2 md:mb-3 uppercase tracking-wider flex items-center gap-2">
                     <PenTool size={12} /> Input
                 </label>
                 <div className="relative group">
@@ -181,15 +181,15 @@ const App: React.FC = () => {
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         placeholder="Enter text here..."
-                        className="w-full h-40 p-5 rounded-sm border border-[var(--border-color)]/20 bg-[var(--input-bg)] text-[var(--input-text)] placeholder-[var(--text-sidebar-muted)]/50 focus:ring-1 focus:ring-[var(--text-sidebar-muted)] focus:border-[var(--text-sidebar-muted)] resize-none text-lg leading-relaxed transition-all font-serif-jp"
+                        className="w-full h-20 md:h-40 p-3 md:p-5 rounded-sm border border-[var(--border-color)]/20 bg-[var(--input-bg)] text-[var(--input-text)] placeholder-[var(--text-sidebar-muted)]/50 focus:ring-1 focus:ring-[var(--text-sidebar-muted)] focus:border-[var(--text-sidebar-muted)] resize-none text-base md:text-lg leading-relaxed transition-all font-serif-jp"
                         disabled={isAnalyzing}
                     />
                 </div>
             </div>
 
             {error && (
-                <div className="bg-red-900/20 text-red-200 p-4 rounded-sm text-sm flex items-start gap-3 border border-red-900/30">
-                    <AlertCircle size={18} className="mt-0.5 shrink-0" />
+                <div className="bg-red-900/20 text-red-200 p-3 rounded-sm text-xs md:text-sm flex items-start gap-2 border border-red-900/30">
+                    <AlertCircle size={14} className="mt-0.5 shrink-0" />
                     <span>{error}</span>
                 </div>
             )}
@@ -197,20 +197,20 @@ const App: React.FC = () => {
             <button
                 onClick={handleLookup}
                 disabled={isAnalyzing || !inputText.trim()}
-                className="w-full py-4 rounded-sm bg-[var(--button-bg)] text-[var(--button-text)] font-serif-jp font-bold shadow-lg hover:bg-[var(--button-bg-hover)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-sm tracking-wide"
+                className="w-full py-3 md:py-4 rounded-sm bg-[var(--button-bg)] text-[var(--button-text)] font-serif-jp font-bold shadow-lg hover:bg-[var(--button-bg-hover)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm tracking-wide"
             >
                 {isAnalyzing ? (
                     <>
-                        <Loader2 className="animate-spin" size={18} /> Processing...
+                        <Loader2 className="animate-spin" size={16} /> Processing...
                     </>
                 ) : (
                     <>
-                        <Search size={18} /> Look Up
+                        <Search size={16} /> Look Up
                     </>
                 )}
             </button>
             
-            <div className="mt-auto pt-8">
+            <div className="mt-auto pt-4 md:pt-8 hidden md:block">
                  <div className="text-center opacity-40 hover:opacity-100 transition-opacity">
                     <div className="text-[10px] uppercase tracking-[0.3em] mb-1 font-serif-jp text-[var(--text-sidebar-muted)]">Powered by</div>
                     <div className="font-bold font-serif-jp text-sm tracking-widest text-[var(--text-sidebar)]">Codex Japan Co., Ltd.</div>
@@ -221,15 +221,15 @@ const App: React.FC = () => {
 
       {/* Main Content / List - Washi Paper Style */}
       <div className="flex-1 bg-washi h-auto md:h-screen overflow-y-auto relative">
-        <div className="max-w-2xl mx-auto p-6 md:p-12 pb-32">
+        <div className="max-w-3xl mx-auto p-4 md:p-12 pb-32">
             <div ref={listTopRef} />
             
-            <div className="flex items-end justify-between mb-12 border-b-2 border-[var(--border-color)] pb-4">
+            <div className="flex items-end justify-between mb-8 md:mb-12 border-b-2 border-[var(--border-color)] pb-3 md:pb-4">
                 <div>
-                    <h2 className="text-3xl font-serif-jp font-bold text-[var(--text-primary)]">Vocabulary</h2>
-                    <p className="text-sm text-[var(--text-secondary)] mt-1 font-serif-jp">Personal Collection</p>
+                    <h2 className="text-2xl md:text-3xl font-serif-jp font-bold text-[var(--text-primary)]">Vocabulary</h2>
+                    <p className="text-xs md:text-sm text-[var(--text-secondary)] mt-1 font-serif-jp">Personal Collection</p>
                 </div>
-                <div className="font-mono text-xs text-[var(--text-secondary)]">
+                <div className="font-mono text-[10px] md:text-xs text-[var(--text-secondary)]">
                     {dictionaryItems.length} ITEMS
                 </div>
             </div>
@@ -240,13 +240,13 @@ const App: React.FC = () => {
                      <p className="text-[var(--text-secondary)] font-serif-jp text-sm">Loading Codex...</p>
                 </div>
             ) : dictionaryItems.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-32 text-slate-300 border border-[var(--border-color)] border-dashed rounded-sm">
-                    <BookOpen size={48} className="mb-6 opacity-20 text-[var(--text-secondary)]" />
-                    <p className="text-xl font-serif-jp text-[var(--text-secondary)] mb-2">No entries yet</p>
-                    <p className="text-sm font-sans text-[var(--text-secondary)]">Begin your journey by adding a word.</p>
+                <div className="flex flex-col items-center justify-center py-20 md:py-32 text-slate-300 border border-[var(--border-color)] border-dashed rounded-sm">
+                    <BookOpen size={36} className="mb-4 md:mb-6 opacity-20 text-[var(--text-secondary)]" />
+                    <p className="text-lg md:text-xl font-serif-jp text-[var(--text-secondary)] mb-2">No entries yet</p>
+                    <p className="text-xs md:text-sm font-sans text-[var(--text-secondary)]">Begin your journey by adding a word.</p>
                 </div>
             ) : (
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-8">
                     {dictionaryItems.map(item => (
                         <ReviewCard 
                             key={item.id} 
